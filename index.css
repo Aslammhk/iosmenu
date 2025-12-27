@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#121212] text-white font-sans;
+  }
+}
+
+/* Custom Scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #22c55e;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.animate-scroll-left {
+  animation: scrollLeft 30s linear infinite;
+}
+
+@keyframes scrollLeft {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* ---------- User Provided Menu Board Styles ---------- */
+.menu-board-container {
+  padding: 24px;
+  font-family: Arial, sans-serif;
+  background: #fff;
+  color: #000;
+}
+
+.menu-card-user {
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eee;
+}
+
+.menu-card-user img {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.menu-info-user {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.menu-title-user {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.menu-desc-user {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #555;
+}
+
+.price-user {
+  font-weight: bold;
+  color: #22c55e;
+}
+
+/* 6 Squares (Grid 3 cols) */
+.menu-container-user.grid6 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* 4 Squares (Grid 2 cols) */
+.menu-container-user.grid4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* List */
+.menu-container-user.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.menu-container-user.list .menu-card-user {
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+}
+.menu-container-user.list img {
+  width: 120px;
+  height: 120px;
+}
+
+/* Round */
+.menu-container-user.round img {
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+}
+
+/* Compact */
+.menu-container-user.compact {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.menu-container-user.compact img {
+  display: none;
+}

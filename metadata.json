@@ -1,0 +1,8 @@
+{
+  "name": "AF Resto Digital Menu",
+  "description": "A premium digital menu and ordering system with horizontal layout optimization.\n22/12/2025",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
