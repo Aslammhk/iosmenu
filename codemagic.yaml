@@ -6,27 +6,28 @@ workflows:
     environment:
       node: latest
       xcode: latest
-      cocoapods: default  # CRITICAL: Tells the Mac to use iOS dependency tools
+      cocoapods: default
     scripts:
       - name: Install dependencies
         script: |
           npm install
       - name: Build Web Project
         script: |
-          # This creates the 'dist' or 'www' folder.
-          # Capacitor Sync WILL FAIL without this step.
-          npm run build 
+          # This command creates the 'dist' folder on the Cloud Mac
+          npm run build
+          # Verification: Show the files to confirm dist/index.html exists
+          ls -R dist
       - name: Capacitor Sync
         script: |
-          # This copies the web files into the iOS native folder
+          # This copies your web code into the iOS folder
           npx cap sync ios
       - name: Install CocoaPods
         script: |
-          # Standard step to link native iOS plugins
+          # Links native plugins like Share and Filesystem
           cd ios/App && pod install
       - name: Build iOS Project
         script: |
-          # Generates the final .ipa file for your iPhone
+          # Final step to create the .ipa file
           xcode-project build-ipa --workspace "ios/App/App.xcworkspace" --scheme "App"
     artifacts:
       - build/ios/ipa/*.ipa
