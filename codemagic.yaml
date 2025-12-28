@@ -5,7 +5,7 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       groups:
-        - ios_configs # 1. ADDED: This connects to your variables in the UI
+        - ios_configs # Matches your variable group in the UI
       node: latest
       xcode: latest
       cocoapods: default
@@ -16,10 +16,8 @@ workflows:
       - name: Build Web Project
         script: |
           npm run build
-          ls -R dist
       - name: Generate export_options.plist
         script: |
-          # 2. ADDED: This recreates the file from your base64 variable
           echo $EXPORT_OPTIONS_PLIST | base64 --decode > ios/App/export_options.plist
       - name: Capacitor Sync
         script: |
@@ -27,9 +25,12 @@ workflows:
       - name: Install CocoaPods
         script: |
           cd ios/App && pod install
+      - name: Set up code signing settings
+        script: |
+          # This command maps your uploaded profiles to the Xcode project
+          xcode-project use-profiles
       - name: Build iOS Project
         script: |
-          # 3. UPDATED: Added the --export-options-plist flag
           xcode-project build-ipa \
             --workspace "ios/App/App.xcworkspace" \
             --scheme "App" \
