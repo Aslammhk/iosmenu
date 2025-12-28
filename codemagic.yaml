@@ -4,6 +4,8 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m1
     environment:
+      groups:
+        - ios_configs # 1. ADDED: This connects to your variables in the UI
       node: latest
       xcode: latest
       cocoapods: default
@@ -13,21 +15,24 @@ workflows:
           npm install
       - name: Build Web Project
         script: |
-          # This command creates the 'dist' folder on the Cloud Mac
           npm run build
-          # Verification: Show the files to confirm dist/index.html exists
           ls -R dist
+      - name: Generate export_options.plist
+        script: |
+          # 2. ADDED: This recreates the file from your base64 variable
+          echo $EXPORT_OPTIONS_PLIST | base64 --decode > ios/App/export_options.plist
       - name: Capacitor Sync
         script: |
-          # This copies your web code into the iOS folder
           npx cap sync ios
       - name: Install CocoaPods
         script: |
-          # Links native plugins like Share and Filesystem
           cd ios/App && pod install
       - name: Build iOS Project
         script: |
-          # Final step to create the .ipa file
-          xcode-project build-ipa --workspace "ios/App/App.xcworkspace" --scheme "App"
+          # 3. UPDATED: Added the --export-options-plist flag
+          xcode-project build-ipa \
+            --workspace "ios/App/App.xcworkspace" \
+            --scheme "App" \
+            --export-options-plist "ios/App/export_options.plist"
     artifacts:
       - build/ios/ipa/*.ipa
